@@ -9,7 +9,7 @@
             //aqui a thread vai consumir 2 de memoria
             t1.Memoria = 2;
             t1.ProcessoPai = "gui aberta";
-            t1.Estado = true;
+            //t1.Estado = true;
 
 
         }

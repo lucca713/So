@@ -10,17 +10,18 @@ namespace So
     {
         public string Nome;
 
+        //relacao composicao Eh um
         public List <Thread> NumeroThreads;
 
+        //acho que nao vai precisar mais a thread vem com o estaod? 
         public string Estado;
 
-        public int Ad;
+        public int Id;
 
         //pensar qual vai ser o tipo da lista de threds
-        public void CriarThread(string thread) { 
-           
-           
-        
+        public void CriarThread(string nome, ) { 
+            
+            
         }
 
         public void FinalizaThread()
