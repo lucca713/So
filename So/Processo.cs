@@ -9,14 +9,17 @@ namespace So
     internal class Processo
     {
         public string Nome;
-        public int NumeroThreads;
-        public string estado;
-        public int Ad;
-        //pensar qual vai ser o tipo da lista de threds
 
+        public List <Thread> NumeroThreads;
+
+        public string Estado;
+
+        public int Ad;
+
+        //pensar qual vai ser o tipo da lista de threds
         public void CriarThread(string thread) { 
            
-            //vou ter que ver se o tipo que recebe esta certo, ele vai colcoar na lista de thread aqui
+           
         
         }
 
