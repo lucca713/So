@@ -4,14 +4,15 @@
     {
         static void Main(string[] args)
         {
-            Thread t1 = new Thread();
+            Processo processo = new Processo();
 
-            //aqui a thread vai consumir 2 de memoria
-            t1.Memoria = 2;
-            t1.ProcessoPai = "gui aberta";
-            //t1.Estado = true;
+            processo.Nome = "Guia google";
 
+            processo.Id = 1;
 
+            int Memoria = 12;
+
+            processo.CriarThread(processo.Id, Memoria, processo.Nome);
         }
     }
 }
