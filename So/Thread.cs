@@ -1,22 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace So
+﻿namespace So
 {
-    internal class Thread
+    public class Thread
     {
+        //Lista dos estados que a thread tem
         public enum Estado
         {
+            Novo,
             Inicializado,
             Finalizado,
             Executando,
         };
+        public string Nome;
 
         public int Id;
 
+        int Prioridade;
         //Quanto gasta de memoria
         public int Memoria;
 
@@ -27,25 +25,22 @@ namespace So
         public Estado EstadoThread;
    
         //Construtor da Thread
-        public Thread(int id, int memoria, string processoPai)
+        public Thread(int id,string nome ,int memoria, string processoPai, int prioridade)
         {
 
             Id = id;
+            Nome = nome;
             Memoria = memoria;
             ProcessoPai = processoPai;
-            this.EstadoThread = Estado.Inicializado;
-        }
-
-   
-        public void executa(){ 
-            //receber todos os outros processos  
+            Prioridade = prioridade;
+            this.EstadoThread = Estado.Novo;
         }
     
 
         //Retorno padrao -> fazer meus testes
         public override string ToString()
         {
-            return $"Thread ID: {Id}, Nome: {ProcessoPai}, Memoria que ela gasta: {Memoria}, Estado: {Estado.Inicializado}";
+            return $"Thread ID: {Id}\n Prioridade: {Prioridade}\n Nome: {Nome}\n Processo Pai: {ProcessoPai}\n Memoria que ela gasta: {Memoria}\n Estado: {EstadoThread}\n";
         }
     }
 }
