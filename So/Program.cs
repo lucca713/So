@@ -4,15 +4,20 @@
     {
         static void Main(string[] args)
         {
-            Processo processo = new Processo();
+          Sistema_operacional So = new Sistema_operacional();
 
-            processo.Nome = "Guia google";
+            So.Limite_de_memoria = 10;
 
-            processo.Id = 1;
+            So.criarProcesso(0,"Google",10);
+            So.criarProcesso(0, "Fire Fox ", 1);
+            So.criarProcesso(0, "Minecraft", 5);
 
-            int Memoria = 12;
+            So.listarProcesso();
 
-            processo.CriarThread(processo.Id, Memoria, processo.Nome);
+           So.SolicitarCriacaoThread(0, 2, "")
+
+
+
         }
     }
 }
