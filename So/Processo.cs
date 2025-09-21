@@ -12,6 +12,7 @@ namespace So
         {
             Novo,
             Executando,
+            Pausado,
             Finalizado
 
         }
@@ -41,7 +42,7 @@ namespace So
        
         //pensar qual vai ser o tipo da lista de threds
         public int CriarThread(int id, int memoria, string nome_thread, string Nome_processo_pai) {
-           
+            
             int soma_prioridade = this.ListaThreads.Count;
 
             //aqui vai passar a a classe da thread, instanciar aqui  
@@ -51,66 +52,69 @@ namespace So
             this.TotalMemoria += Novathread.Memoria;
             //Adiciona na Lista
             ListaThreads.Add(Novathread);
- 
+
             return TotalMemoria;
         }
 
         public void ListarThreads()
         {
-
-            foreach (Thread t in ListaThreads)
+            if (ListaThreads.Count != 0)
             {
-                Console.WriteLine("##############################################\n");
+                foreach (Thread t in ListaThreads)
+                {
+                    Console.WriteLine("-----------------------------------------------\n");
 
-                Console.WriteLine(t.ToString());
+                    Console.WriteLine(t.ToString());
 
-                Console.WriteLine("##############################################\n");
+                    Console.WriteLine("-----------------------------------------------\n");
+                }
             }
+            else {
 
+                Console.WriteLine("Lista vazia");
+               
+            }
         }
+
+        public void limparListaThread(){
+        
+             this.ListaThreads.Clear();
+        
+        }
+
         public void FinalizaThread()
         {
             //nome do processo
-            Console.WriteLine(this.Nome);
+            Console.WriteLine($"ESTOU NO PROCESSO: {this.Nome}");
             Console.WriteLine("Qual processo você quer finalizar? \n");
 
             //listar todas as threads do processo
-            foreach (Thread t in ListaThreads)
-            {
-                Console.WriteLine("##############################################\n");
-
-                Console.WriteLine(t.ToString());
-
-                Console.WriteLine("##############################################\n");
-             }
+            ListarThreads();
 
             int Id_thread_removida = int.Parse(Console.ReadLine());
-            foreach (Thread t in ListaThreads)
-            {
-                if (t.Id == Id_thread_removida)
-                {
-                    ListaThreads.Remove(t);
-                }
-            }
+
+            //remover com linq
+            ListaThreads.RemoveAll(t => t.Id == Id_thread_removida);
+
+            Console.WriteLine("LISTA DE THREADS ATUALIZADA\n");
+
+            ListarThreads();
+
         }
 
+        //so para mostrar que da para mudar o status das threads
         public void IniciaThread()
         {
+            //deixe fixo aqui para iniciar sempre a thread que esta em primeiro na lista para ficar mais facil por hora 
             ListaThreads[0].EstadoThread = Thread.Estado.Inicializado;
-            this.EstadoProcesso = Estados.Executando;
-            foreach (Thread t in ListaThreads)
-            {
-                Console.WriteLine("##############################################\n");
-
-                Console.WriteLine(t.ToString());
-
-                Console.WriteLine("##############################################\n");
-            }
+            
+            ListarThreads();
+           
         }
 
         public override string ToString()
         {
-            return $"Processo: {Id}, nome: {Nome}, Prioridade: {Prioridade}, Estado{EstadoProcesso}";
+            return $"| Processo: {Id} | - | nome: {Nome} | - | Prioridade: {Prioridade} | - | Estado: {EstadoProcesso} |";
         }
 
     }
