@@ -24,6 +24,7 @@ namespace So
                 Console.WriteLine("5. Finalizar uma Thread específica");
                 Console.WriteLine("6. Finalizar um Processo inteiro");
                 Console.WriteLine("7. Listar Threads de um Processo");
+                Console.WriteLine("8. Exibir o mapa de memoria(Paginação)");
                 Console.WriteLine("0. Sair da Simulação");
                 Console.Write("Escolha uma opção: ");
 
@@ -146,6 +147,80 @@ namespace So
                             Console.ForegroundColor = ConsoleColor.Red;
                             Console.WriteLine($"[ERRO] Não foi possível listar as threads. O índice pode ser inválido. ({ex.Message})");
                             Console.ResetColor();
+                        }
+                        break;
+                    case "8":
+                        try
+                        {
+                            Console.WriteLine("Mostrar o mapa de paginas");
+                            so.ExibirMapa();
+                        }catch(Exception ex)
+                        {
+                            Console.WriteLine($"Erro em listar o mapa: {ex}");
+                        }
+                        break;
+                    case "9":
+                        try
+                        {
+                            bool noMenuArquivos = true;
+                            while (noMenuArquivos)
+                            {
+                                // Mostra em qual pasta você está atualmente
+                                Console.ForegroundColor = ConsoleColor.Yellow;
+                                Console.WriteLine($"\n--- SISTEMA DE ARQUIVOS [/root/{so.SistemaArquivos.DiretorioAtual.Nome}] ---");
+                                Console.ResetColor();
+                                Console.WriteLine("1. Listar Conteúdo ");
+                                Console.WriteLine("2. Criar Arquivo ");
+                                Console.WriteLine("3. Criar Diretório ");
+                                Console.WriteLine("4. Entrar em Diretório ");
+                                Console.WriteLine("5. Voltar para Raiz ");
+                                Console.WriteLine("6. Deletar Item ");
+                                Console.WriteLine("0. Voltar ao Menu Principal");
+                                Console.Write("FS > ");
+
+                                string opFS = Console.ReadLine();
+                                switch (opFS)
+                                {
+                                    case "1":
+                                        so.SistemaArquivos.ListarConteudo();
+                                        break;
+                                    case "2":
+                                        Console.Write("Nome do arquivo: ");
+                                        string nomeArq = Console.ReadLine();
+                                        Console.Write("Conteúdo do arquivo: ");
+                                        string contArq = Console.ReadLine();
+                                        so.SistemaArquivos.CriarArquivo(nomeArq, contArq);
+                                        break;
+                                    case "3":
+                                        Console.Write("Nome da pasta: ");
+                                        string nomeDir = Console.ReadLine();
+                                        so.SistemaArquivos.CriarDiretorio(nomeDir);
+                                        break;
+                                    case "4":
+                                        Console.Write("Nome da pasta para entrar: ");
+                                        string dest = Console.ReadLine();
+                                        so.SistemaArquivos.MudarDiretorio(dest);
+                                        break;
+                                    case "5":
+                                        so.SistemaArquivos.MudarDiretorio("..");
+                                        break;
+                                    case "6":
+                                        Console.Write("Nome do item para deletar: ");
+                                        string itemDel = Console.ReadLine();
+                                        so.SistemaArquivos.Deletar(itemDel);
+                                        break;
+                                    case "0":
+                                        noMenuArquivos = false;
+                                        break;
+                                    default:
+                                        Console.WriteLine("Opção inválida.");
+                                        break;
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($"erro {ex}");
                         }
                         break;
 

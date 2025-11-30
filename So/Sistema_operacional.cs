@@ -16,9 +16,21 @@ namespace So
         public int escalonador { get; set; }
 
         public int cont = 0;
+
+        public Gerenciador_memoria GerenciadorMemoria { get; set; }
+
+        public SistemaArquivos SistemaArquivos;
         public Sistema_operacional()
         {
-            
+            GerenciadorMemoria = new Gerenciador_memoria(1000, 20);
+            SistemaArquivos = new SistemaArquivos();
+
+        }
+
+        public void ExibirMapa()
+        {
+            GerenciadorMemoria.ImprimirMapa();
+        
         }
 
         //depois ver o que ela vai retonar
@@ -26,7 +38,7 @@ namespace So
             Processo NovoProcesso = new Processo(id,nome, prioridade);
             FilaProcessos.Add(NovoProcesso);
 
-            //Ordena a fila de processo -> maior valor de prioridade na frente, dps isso muda com o escalonados
+           
             FilaProcessos = FilaProcessos.OrderByDescending(processo => processo.Prioridade).ToList();          
         }
 
@@ -34,31 +46,41 @@ namespace So
         {
             for (int i = 0; i < FilaProcessos.Count; i++)
             {
-                Console.WriteLine("##############################################\n");
-
-                //Console.WriteLine($"IDICE DO PROCESSO NA LISTA: [{i}]");
-
+             
                 Console.WriteLine($" IDICE DO PROCESSO NA LISTA: [{i}]: {FilaProcessos[i].ToString()}");
-                Console.WriteLine("\n");
-                Console.WriteLine("##############################################\n");
+                    
             }
         }
 
         public int SolicitarCriacaoThread(int indice, int qtd_memoria, string nome_thread){
                   
-                var processo = FilaProcessos[indice];
+            var processo = FilaProcessos[indice];
 
+            List<int> NovasMolduras;
+            bool ConseguiuAlocar = GerenciadorMemoria.AlocarMemoria(processo.Id, qtd_memoria, out NovasMolduras);
+
+            if (!ConseguiuAlocar)
+            {
+                Console.WriteLine($"Falha na paginação: Não tem molduras livres para alocar");
+            }
+            
+            processo.TabelaDePaginas.AddRange(NovasMolduras);
                 int Total_memoria = processo.CriarThread(cont, qtd_memoria, nome_thread, processo.Nome);
                 cont++;
+               GerenciadorMemoria.ImprimirMapa();
                 return Total_memoria;         
         }
 
         //ver de novo essa lista, pois devia ser uma lista de processo, ele vai retornar o processor(arrumar o tipo dela)
-    
+        //limpar o mapa e a lisat de folhas
         public void FinalizarProcesso(int indice)
         {
             var processo = FilaProcessos[indice];
-            processo.limparListaThread();
+            GerenciadorMemoria.RetirarMemorial(processo.Id);
+
+            processo.TabelaDePaginas.Clear();
+
+            processo.LimparListaDeThreads();
             FilaProcessos.Remove(processo);
          
             Console.WriteLine("LISTA DE PROCESSOS ATUALIZADA");
